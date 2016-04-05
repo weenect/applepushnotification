@@ -78,7 +78,7 @@ class NotificationService(object):
 	def _check_send_connection(self):
 		if self._push_connection is None:
 			s = ssl.wrap_socket(socket(AF_INET, SOCK_STREAM, 0),
-				ssl_version=ssl.PROTOCOL_SSLv3,
+				ssl_version=ssl.PROTOCOL_TLSv1,
 				**self._sslargs)
 			addr = ["gateway.push.apple.com", 2195]
 			if self._sandbox:
@@ -90,7 +90,7 @@ class NotificationService(object):
 	def _check_feedback_connection(self):
 		if self._feedback_connection is None:
 			s = ssl.wrap_socket(socket(AF_INET, SOCK_STREAM, 0),
-				ssl_version = ssl.PROTOCOL_SSLv3,
+				ssl_version = ssl.PROTOCOL_TLSv1,
 				**self._sslargs)
 			addr = ["feedback.push.apple.com", 2196]
 			if self._sandbox:
@@ -162,7 +162,7 @@ class NotificationService(object):
 	def get_error(self, block = True, timeout = None):
 		"""
 		Gets the next error message.
-		
+
 		Each error message is a 2-tuple of (status, identifier)."""
 		return self._error_queue.get(block = block, timeout = timeout)
 
@@ -189,7 +189,7 @@ class NotificationService(object):
 		"""
 		Send all pending messages, close connection.
 		Returns True if no message left to sent. False if dirty.
-		
+
 		- timeout: seconds to wait for sending remaining messages. disconnect
 		  immedately if None.
 		"""
